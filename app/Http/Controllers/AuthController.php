@@ -71,4 +71,24 @@ class AuthController extends Controller
             ], 400);
         }
     }
+
+
+    /**
+     * Função para realizar logout
+     *
+     * @return object
+     * @author Junior <hamilton.junior@opovodigital.com>
+     */
+    public function logout() :object
+    {
+        try {
+            // Invalida o token do usuário atual
+            JWTAuth::invalidate(JWTAuth::getToken());
+
+            return response()->json(['message' => 'Logou realizado com sucesso.']);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Falha ao realizar logout.'], 500);
+
+        }
+    }
 }
