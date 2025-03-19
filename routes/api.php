@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContractsController;
+use App\Http\Middleware\AuthMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,4 +21,10 @@ Route::controller(AuthController::class)->group(function(){
     Route::post('/login', 'login');
     Route::post('/register', 'register');
 
+});
+
+Route::middleware(AuthMiddleware::class)->group(function(){
+    Route::controller(ContractsController::class)->prefix('contracts')->group(function(){
+        Route::get('/all', 'all');
+    });
 });
