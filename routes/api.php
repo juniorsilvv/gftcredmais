@@ -25,6 +25,10 @@ Route::controller(AuthController::class)->group(function(){
 
 Route::middleware(AuthMiddleware::class)->group(function(){
     Route::controller(ContractsController::class)->prefix('contracts')->group(function(){
-        Route::get('/all', 'all');
+        Route::get('{uuid}', 'get');
+        Route::get('/', 'all');
+        Route::post('/', 'create');
+        Route::put('{uuid}', 'update');
+        Route::delete('{uuid}', 'delete');
     });
 });
