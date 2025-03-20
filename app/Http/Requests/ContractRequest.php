@@ -2,8 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\ResponseTrait;
+use App\Services\UserServices;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ContractRequest extends FormRequest
 {
@@ -62,12 +63,12 @@ class ContractRequest extends FormRequest
         if($this->isMethod('put'))
             return array_merge(
                 $this->uuid(),
-                $this->clientId($this->route('id')),
-                $this->amount($this->route('id')),
-                $this->commercialManagaerId($this->route('id')),
-                $this->regionalManagerId($this->route('id')),
-                $this->superintendentId($this->route('id')),
-                $this->status($this->route('id'))
+                $this->clientId(),
+                $this->amount(),
+                $this->commercialManagaerId(),
+                $this->regionalManagerId(),
+                $this->superintendentId(),
+                $this->status()
             );
 
 
@@ -81,7 +82,16 @@ class ContractRequest extends FormRequest
 
     private function clientId()
     {
-        return ['client_id' => 'required|integer|exists:users,id'];
+        return ['client_id' => [
+            'required',
+            'integer',
+            function($attribute, $value, $fails){
+                $user = (new UserServices)->getUser($value);
+
+                if($user['error'])
+                    $fails($user['message']);
+            }
+        ]];
     }
 
     private function amount()
