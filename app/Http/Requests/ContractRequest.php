@@ -106,7 +106,7 @@ class ContractRequest extends FormRequest
 
     private function regionalManagerId()
     {
-        return ['superintendent_id' => 'required|integer|exists:users,id'];
+        return ['regional_manager_id' => 'required|integer|exists:users,id'];
     }
 
     private function superintendentId()
