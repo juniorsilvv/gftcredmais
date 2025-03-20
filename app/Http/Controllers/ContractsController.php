@@ -6,6 +6,7 @@ use Exception;
 use App\Http\Requests\ContractRequest;
 use App\Http\Resources\ContractsResource;
 use App\Repositories\LoanContractsRepository;
+use App\Services\CommissionsServices;
 
 class ContractsController extends Controller
 {
@@ -47,11 +48,11 @@ class ContractsController extends Controller
      * @return object
      * @author Junior <hamilton.junior@opovodigital.com>
      */
-    public function create(ContractRequest $request): object
+    public function create(ContractRequest $request, CommissionsServices $commissions): object
     {
 
         try {
-            $this->repository->create([
+            $contract = $this->repository->create([
                 'client_id'             => $request->client_id,
                 'amount'                => $request->amount,
                 'commercial_manager_id' => $request->commercial_manager_id,
@@ -60,13 +61,14 @@ class ContractsController extends Controller
                 'status'                => $request->status
             ]);
 
-
+            /** Gerando as comissões */
+            $commissions->createCommissions($contract);
             return response()->json([
                 'message' => 'Contrato criado com sucesso'
             ], 201);
         } catch (Exception $e) {
             return response()->json([
-                'message' => 'Erro ao criar contrato.'
+                'message' => $e->getMessage()
             ], 500);
         }
     }
@@ -79,7 +81,7 @@ class ContractsController extends Controller
      * @return object
      * @author Junior <hamilton.junior@opovodigital.com>
      */
-    public function update(ContractRequest $request): object
+    public function update(ContractRequest $request, CommissionsServices $commissions): object
     {
         try {
             $this->repository->update($request->uuid, [
@@ -90,6 +92,9 @@ class ContractsController extends Controller
                 'superintendent_id'     => $request->superintendent_id,
                 'status'                => $request->status
             ]);
+
+            /**Gerando as comissões */
+            $commissions->createCommissions($request->uuid);
 
             return response()->noContent();
         } catch (Exception $e) {
