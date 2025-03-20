@@ -91,4 +91,23 @@ class AuthController extends Controller
 
         }
     }
+
+    /**
+     * Atualiza o token JWT
+     *
+     * @return object
+     * @author Junior <hamilton.junior@opovodigital.com>
+     */
+    public function refreshToken(): object
+    {
+        try {
+            $newToken = JWTAuth::refresh();
+
+            return response()->json([
+                'token' => $newToken,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Não foi possível atualizar o token'], 401);
+        }
+    }
 }
