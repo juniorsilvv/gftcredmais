@@ -32,9 +32,10 @@ class LoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required'    => 'E-mail é obrigatório',
-            'email.email'       => 'Digite um e-mail válido',
-            'email.exists'      => 'E-mail ou senha inválidos' // Validando se o email existe ou não
+            'email.required'    => 'E-mail é obrigatório.',
+            'email.email'       => 'Digite um e-mail válido.',
+            'email.exists'      => 'E-mail ou senha inválidos.',
+            'password.required' => 'A senha é obrigatória.'
         ];
     }
 }
