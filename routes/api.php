@@ -24,6 +24,7 @@ Route::controller(AuthController::class)->group(function(){
 
 Route::middleware(AuthMiddleware::class)->group(function(){
     Route::get('logout', [AuthController::class, 'logout']);
+    Route::get('refresh-token', [AuthController::class, 'refreshToken']);
 
     Route::controller(ContractsController::class)->prefix('contracts')->group(function(){
         Route::get('{uuid}', 'get');
