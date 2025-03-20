@@ -1,66 +1,150 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Teste Backend GFT
 
-## About Laravel
+Segue o teste prático como solicitado.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Instruções para Rodar o Projeto
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Pré-requisitos
+Certifique-se de ter os seguintes softwares instalados:
 
-## Learning Laravel
+- PHP (recomendado versão 8.0 ou superior)
+- Composer (para gerenciar dependências PHP)
+- Postgres (ou outro banco de dados compatível)
+- Postman ou ferramenta similar (para testar a API)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### 1. Clonar o Repositório
+Clone o repositório do projeto:
+```https://github.com/juniorsilvv/gftcredmais.git```
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+#### 2. Instalar Dependências
+Entre na pasta do projeto e instale as dependências do PHP usando o Composer:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```composer install```
 
-## Laravel Sponsors
+#### 3. Configuração do Ambiente
+Crie o arquivo .env na raiz do projeto, baseado no arquivo .env.example. Abra o arquivo .env e configure as variáveis de ambiente:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Linux: 
+```cp .env.example .env```
 
-### Premium Partners
+Windows: ```copy .env.example .env```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+#### 4. Gerar a Chave JWT
+Execute o seguinte comando para gerar a chave secreta para a autenticação JWT:
 
-## Contributing
+```php artisan jwt:secret```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+#### 5. Rodar as Migrações
+Execute as migrações do banco de dados para criar as tabelas necessárias:
 
-## Code of Conduct
+```php artisan migrate```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### 6. Iniciar o Servidor
+Para rodar o servidor de desenvolvimento, use o seguinte comando:
 
-## Security Vulnerabilities
+```php artisan serve```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Documentação da API
+
+#### Rota de login
+```http
+  POST /api/login
+```
+
+| Parâmetro   | Tipo       | Descrição                           |
+| :---------- | :--------- | :---------------------------------- |
+| `email` | `string` | **Obrigatório**|
+| `password` | `string` | **Obrigatório**|
+
+#### Rota para cadatrar um usuário
+
+```http
+  POST /api/register
+```
+
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `name`      | `string` | **Obrigatório**.|
+| `email` | `string` | **Obrigatório**|
+| `password` | `string` | **Obrigatório**|
+
+
+### Todas as rotas a seguir são autenticadas.
+Necessário informar o **Bearer Token** para acessa-lás
+
+#### Rota para realizar logout
+```http
+  GET /api/logout
+```
+
+#### Rota para atualizar o token
+```http
+  GET /api/refresh-token
+```
+
+#### Rota para retornar todos os contratos
+```http
+  GET /api/contracts
+```
+
+#### Rota para retornar um contrato específico
+```http
+  GET /api/contracts/${id}
+```
+
+#### Rota para cadatrar um novo contrato
+```http
+  POST /api/contracts/
+```
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `client_id`      | `integer` | **Obrigatório**. É realizada verificação se o client existe na api externa.|
+| `amount` | `numeric` | **Obrigatório**. O valor deve ser maior que 0.1.|
+| `commercial_manager_id` | `integer` | **Obrigatório**. É realiazada a verificação se o usuário existe na base de dados.|
+| `regional_manager_id` | `integer` | **Obrigatório**. O valor deve ser maior que 0.1.|
+| `superintendent_id` | `integer` | **Obrigatório**. É realiazada a verificação se o usuário existe na base de dados.|
+| `status` | `string` | **Obrigatório**. O status precisa ser pending,approved ou rejected.|
+
+#### Rota para atualizar um contrato
+```http
+  PUT /api/contracts/${id}
+```
+| Parâmetro   | Tipo       | Descrição                                   |
+| :---------- | :--------- | :------------------------------------------ |
+| `client_id`      | `integer` | **Obrigatório**. É realizada verificação se o client existe na api externa.|
+| `amount` | `numeric` | **Obrigatório**. O valor deve ser maior que 0.1.|
+| `commercial_manager_id` | `integer` | **Obrigatório**. É realiazada a verificação se o usuário existe na base de dados.|
+| `regional_manager_id` | `integer` | **Obrigatório**. O valor deve ser maior que 0.1.|
+| `superintendent_id` | `integer` | **Obrigatório**. É realiazada a verificação se o usuário existe na base de dados.|
+| `status` | `string` | **Obrigatório**. O status precisa ser pending,approved ou rejected.|
+
+#### Rota para deletar um contrato
+```http
+  DELETE /api/contracts/${id}
+```
+
+
+### Arquitetura do projeto
+Para a arquitetura do projeto foi pensado em separação de camadas.
+
+#### RequestForms
+
+Foi usado as requetsforms para conter todas as regras e validações antes de chegar no controller, deixando o controle somente para as ações necessárias.
+
+#### Traits
+Foi criada Traits para adicionar funções padrões que todas os requests forms tem, para não haver duplicidade de código.
+
+
+#### Repository
+Foi usada repositories para ter uma camada a mais para abstração de banco de dados.
+
+#### Services
+Foi usada services para separar partes de codigo que poderiam ser usadas em outras estruturas do código.
+
+#### Resoruces
+Foi usada Resources para ter uma padronização no retorno dos dados.
