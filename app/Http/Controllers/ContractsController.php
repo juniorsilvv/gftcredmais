@@ -48,7 +48,7 @@ class ContractsController extends Controller
      * @return object
      * @author Junior <hamilton.junior@opovodigital.com>
      */
-    public function create(ContractRequest $request, CommissionsServices $commissions): object
+    public function create(ContractRequest $request): object
     {
 
         try {
@@ -61,8 +61,6 @@ class ContractsController extends Controller
                 'status'                => $request->status
             ]);
 
-            /** Gerando as comissões */
-            $commissions->createCommissions($contract);
             return response()->json([
                 'message' => 'Contrato criado com sucesso'
             ], 201);
@@ -78,6 +76,7 @@ class ContractsController extends Controller
      * Atualiza os dados de um contrato
      *
      * @param ContractRequest $request
+     * @param CommissionsServices $commissions
      * @return object
      * @author Junior <hamilton.junior@opovodigital.com>
      */
