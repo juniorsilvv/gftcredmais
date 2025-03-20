@@ -38,7 +38,7 @@ class ContractsController extends Controller
     public function all(): object
     {
         $contracts = $this->repository->paginate(10, ['*'], ['commercialManager', 'regionalManager', 'superintendent']);
-        return new ContractsResource($contracts);
+        return ContractsResource::collection($contracts);
     }
 
     /**
