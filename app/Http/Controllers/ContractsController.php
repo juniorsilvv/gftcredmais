@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Http\Requests\ContractRequest;
 use App\Http\Resources\ContractsResource;
+use App\Repositories\CommissionsRepository;
 use App\Repositories\LoanContractsRepository;
 use App\Services\CommissionsServices;
 
@@ -110,9 +111,14 @@ class ContractsController extends Controller
      * @return object
      * @author Junior <hamilton.junior@opovodigital.com>
      */
-    public function delete(ContractRequest $request): object
+    public function delete(ContractRequest $request, CommissionsRepository $commission): object
     {
         try {
+            /**
+             * Remove as comissões antes de remover o contato
+             */
+            $commission->delete($request->uuid, 'loan_contract_id');
+            
             $this->repository->delete($request->uuid);
 
             return response()->json([
