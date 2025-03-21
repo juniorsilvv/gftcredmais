@@ -63,7 +63,8 @@ class ContractsController extends Controller
             ]);
 
             return response()->json([
-                'message' => 'Contrato criado com sucesso'
+                'message'   => 'Contrato criado com sucesso',
+                'contract'  => $contract
             ], 201);
         } catch (Exception $e) {
             return response()->json([
@@ -84,7 +85,7 @@ class ContractsController extends Controller
     public function update(ContractRequest $request, CommissionsServices $commissions): object
     {
         try {
-            $this->repository->update($request->uuid, [
+            $contract = $this->repository->update($request->uuid, [
                 'client_id'             => $request->client_id,
                 'amount'                => $request->amount,
                 'commercial_manager_id' => $request->commercial_manager_id,
@@ -94,9 +95,12 @@ class ContractsController extends Controller
             ]);
 
             /**Gerando as comissões */
-            $commissions->createCommissions($request->uuid);
+            $commissions->createCommissions($contract);
 
-            return response()->noContent();
+            return response()->json([
+                'message' => 'Contrato atualizado com sucesso.',
+                'contract' => $contract
+            ]);
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Erro ao atualizar contrato.'
